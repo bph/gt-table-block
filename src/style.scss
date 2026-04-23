@@ -1,0 +1,78 @@
+/**
+ * GT Table Block — frontend styles
+ *
+ * One section per PR. CSS custom properties are defined at the block level
+ * so themes and per-block inline styles can override them cleanly.
+ */
+
+// ── PR 1: Sticky Header ─────────────────────────────────────────────────────
+//
+// --gt-sticky-header-offset defaults to 0px.
+// Sites with a fixed nav bar can override it globally:
+//   .wp-block-table { --gt-sticky-header-offset: 60px; }
+// Or per-block via the offset control in InspectorControls (set as inline style).
+
+.wp-block-table.has-sticky-header {
+	thead th {
+		position: sticky;
+		top: var(--gt-sticky-header-offset, 0px);
+		z-index: 2;
+
+		// background must be opaque so the sticky cell covers rows scrolling beneath.
+		// `inherit` picks up whatever colour the user has set via the Color panel.
+		background: inherit;
+
+		// Maintain the bottom border visually — sticky cells with border-collapse
+		// can lose their bottom border as rows scroll under them.
+		box-shadow: inset 0 -1px 0 currentColor;
+	}
+}
+
+// ── PR 2: Styled First Column ───────────────────────────────────────────────
+//
+// Gives the first body/foot column the same visual weight as thead/tfoot cells.
+// --gt-header-column-bg defaults to inherit; themes can set a specific shade.
+// scope="row" is added to these cells in the getSaveElement filter (a11y).
+
+.wp-block-table.has-header-column {
+	// Use the .wp-block-table parent for specificity without !important.
+	tbody tr td:first-child,
+	tfoot tr td:first-child {
+		font-weight: 700;
+		background: var(--gt-header-column-bg, inherit);
+	}
+}
+
+// ── PR 3: Sticky First Column ───────────────────────────────────────────────
+//
+// Requires a scrollable ancestor — provided by the .wp-block-table__scroll-container
+// div injected by the getSaveElement filter when stickyFirstColumn is active.
+//
+// border-collapse: collapse (core default) breaks position: sticky in most browsers.
+// We simulate the right-side border using box-shadow instead.
+
+.wp-block-table.has-sticky-column {
+	th:first-child,
+	td:first-child {
+		position: sticky;
+		left: 0;
+		z-index: 1;
+		background: inherit;
+
+		// Simulate column border without relying on border-collapse.
+		box-shadow: inset -1px 0 0 currentColor;
+	}
+
+	// Intersection cell: sits above both sticky axes.
+	thead tr:first-child th:first-child {
+		z-index: 3;
+	}
+}
+
+// Scroll container injected by getSaveElement filter (PR 3).
+.wp-block-table__scroll-container {
+	overflow-x: auto;
+}
+
+// ── PR 4: Merge/Unmerge Cells ───────────────────────────────────────────────
+// No CSS needed — colspan/rowspan are HTML attributes, not style concerns.

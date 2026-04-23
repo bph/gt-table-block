@@ -1,0 +1,7 @@
+node_modules/
+build/
+*.log
+.DS_Store
+PLAN.md
+svn-local/
+how-to-deploy-a-plugin-and-a-new-versions.md
