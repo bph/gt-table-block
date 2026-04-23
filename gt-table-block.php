@@ -21,7 +21,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Enqueue editor assets.
  *
  * Loads the block variation registration, attribute extensions, and
- * InspectorControls filters into the block editor.
+ * InspectorControls filters into the block editor, plus editor-only style
+ * overrides from src/editor.scss.
  */
 function gt_table_block_editor_assets(): void {
 	$asset_file = plugin_dir_path( __FILE__ ) . 'build/index.asset.php';
@@ -50,23 +51,26 @@ function gt_table_block_editor_assets(): void {
 add_action( 'enqueue_block_editor_assets', 'gt_table_block_editor_assets' );
 
 /**
- * Enqueue frontend styles.
+ * Enqueue frontend + editor styles.
  *
- * The sticky header, header column, and sticky column CSS all live here.
- * No frontend JS is required for any feature.
+ * src/style.scss is auto-extracted by @wordpress/scripts into style-index.css.
+ * enqueue_block_assets fires in both editor and frontend contexts, so sticky
+ * header / sticky column / header column styles work everywhere.
  */
 function gt_table_block_frontend_assets(): void {
-	$asset_file = plugin_dir_path( __FILE__ ) . 'build/style-index.asset.php';
+	$asset_file = plugin_dir_path( __FILE__ ) . 'build/index.asset.php';
 
-	$version = file_exists( $asset_file )
-		? require( $asset_file )['version']
-		: filemtime( plugin_dir_path( __FILE__ ) . 'build/style-index.css' );
+	if ( ! file_exists( $asset_file ) ) {
+		return;
+	}
+
+	$asset = require $asset_file;
 
 	wp_enqueue_style(
 		'gt-table-block',
 		plugin_dir_url( __FILE__ ) . 'build/style-index.css',
 		[ 'wp-block-table' ],
-		$version
+		$asset['version']
 	);
 }
 add_action( 'enqueue_block_assets', 'gt_table_block_frontend_assets' );

@@ -15,4 +15,5 @@ import './filters/with-inspector-controls';   // PR 1-4: InspectorControls panel
 import './filters/with-extra-props';          // PR 1-3: editor wrapper classes + styles
 import './filters/with-save-element';         // PR 3: scroll wrapper / PR 4: hidden cells
 
-import './editor.scss';
+import './style.scss';                        // frontend + editor styles
+import './editor.scss';                       // editor-only overrides
