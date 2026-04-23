@@ -13,7 +13,7 @@ import './filters/extend-attributes';         // PR 1-4: adds custom attrs to co
 import './variation';                          // registers the Enhanced Table variation
 import './filters/with-inspector-controls';   // PR 1-4: InspectorControls panel
 import './filters/with-extra-props';          // PR 1-3: editor wrapper classes + styles
+import './filters/with-save-props';           // PR 1-3: saved wrapper classes + styles (frontend)
 import './filters/with-save-element';         // PR 3: scroll wrapper / PR 4: hidden cells
 
-import './style.scss';                        // frontend + editor styles
-import './editor.scss';                       // editor-only overrides
+import './style.scss';                        // frontend + editor styles (loaded in iframe via enqueue_block_assets)

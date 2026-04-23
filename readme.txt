@@ -45,6 +45,26 @@ No. Sticky header, header column styling, and sticky first column are pure CSS. 
 
 Yes. It targets `core/table` and uses the `wp-block-table` class chain for specificity without `!important`.
 
+= How do I change the sticky header background color? =
+
+The sticky header is painted with an opaque background so body rows don't show through it. It resolves in this order:
+
+1. `--gt-sticky-header-bg` — a per-block or local override (wins over everything).
+2. `--wp--custom--gt-sticky-header-bg` — a theme.json `settings.custom` value.
+3. `Canvas` — the CSS system color (browser document background, adapts to light/dark mode).
+
+**Theme-wide via theme.json:**
+
+`{ "settings": { "custom": { "gtStickyHeaderBg": "#f5f5f5" } } }`
+
+WordPress serializes `settings.custom.gtStickyHeaderBg` as the CSS variable `--wp--custom--gt-sticky-header-bg`, which the plugin reads as a fallback.
+
+**Theme-wide via raw CSS in theme.json:**
+
+`{ "styles": { "css": ".wp-block-table.has-sticky-header { --gt-sticky-header-bg: var(--wp--preset--color--base); } " } }`
+
+**Per-block override:** add an inline style or Additional CSS class that sets `--gt-sticky-header-bg` on the `<figure>`.
+
 == Changelog ==
 
 = 0.1.0 =

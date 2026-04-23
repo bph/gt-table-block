@@ -25,6 +25,7 @@ export default function StickyHeaderControls( { attributes, setAttributes } ) {
 	return (
 		<>
 			<ToggleControl
+				__nextHasNoMarginBottom
 				label={ __( 'Sticky header row', 'gt-table-block' ) }
 				help={
 					stickyHeader

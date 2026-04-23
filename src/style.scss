@@ -13,14 +13,30 @@
 // Or per-block via the offset control in InspectorControls (set as inline style).
 
 .wp-block-table.has-sticky-header {
+	// Core sets `overflow-x: auto` on .wp-block-table for horizontal scrolling
+	// of wide tables. That creates a scrolling context on the <figure> which
+	// traps position: sticky on the header — the <th> can only stick within the
+	// figure's own scroll area, which is the same height as the table. Override
+	// to let the header stick to the viewport instead. Wide tables that also
+	// need horizontal scroll should enable `stickyFirstColumn`, which wraps the
+	// <table> in an inner scroll container div via getSaveElement.
+	overflow: visible;
+
 	thead th {
 		position: sticky;
 		top: var(--gt-sticky-header-offset, 0px);
 		z-index: 2;
 
-		// background must be opaque so the sticky cell covers rows scrolling beneath.
-		// `inherit` picks up whatever colour the user has set via the Color panel.
-		background: inherit;
+		// Sticky cells must be fully opaque or body rows scroll through them.
+		// Resolution order:
+		//   1. --gt-sticky-header-bg         — per-block or local override
+		//   2. --wp--custom--gt-sticky-header-bg — theme.json settings.custom.gtStickyHeaderBg
+		//   3. Canvas                         — CSS system color (document background;
+		//                                       respects light/dark mode)
+		background: var(
+			--gt-sticky-header-bg,
+			var( --wp--custom--gt-sticky-header-bg, Canvas )
+		);
 
 		// Maintain the bottom border visually — sticky cells with border-collapse
 		// can lose their bottom border as rows scroll under them.
@@ -52,6 +68,11 @@
 // We simulate the right-side border using box-shadow instead.
 
 .wp-block-table.has-sticky-column {
+	// Editor has no getSaveElement-injected scroll container; the figure itself
+	// must scroll. On the frontend this is redundant with the inner scroll
+	// container but harmless.
+	overflow-x: auto;
+
 	th:first-child,
 	td:first-child {
 		position: sticky;

@@ -26,10 +26,17 @@ const withGtTableWrapperProps = createHigherOrderComponent( ( BlockListBlock ) =
 		const { stickyHeader, stickyHeaderOffset, hasHeaderColumn, stickyFirstColumn } =
 			props.attributes;
 
+		// If no Enhanced Table features are active, pass through untouched.
+		// Modifying wrapperProps/className unconditionally interferes with core
+		// Table's own wrapper handling and prevents cells from rendering.
+		if ( ! stickyHeader && ! hasHeaderColumn && ! stickyFirstColumn ) {
+			return <BlockListBlock { ...props } />;
+		}
+
 		const extraClasses = [
-			stickyHeader      ? 'has-sticky-header'  : '',
-			hasHeaderColumn   ? 'has-header-column'   : '',
-			stickyFirstColumn ? 'has-sticky-column'   : '',
+			stickyHeader      ? 'has-sticky-header' : '',
+			hasHeaderColumn   ? 'has-header-column' : '',
+			stickyFirstColumn ? 'has-sticky-column' : '',
 		]
 			.filter( Boolean )
 			.join( ' ' );

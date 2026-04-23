@@ -18,11 +18,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Enqueue editor assets.
+ * Enqueue editor-only script.
  *
  * Loads the block variation registration, attribute extensions, and
- * InspectorControls filters into the block editor, plus editor-only style
- * overrides from src/editor.scss.
+ * InspectorControls filters into the block editor. Styles load via
+ * gt_table_block_frontend_assets() below so they reach the WP 6.3+
+ * editor iframe (enqueue_block_editor_assets styles do not).
  */
 function gt_table_block_editor_assets(): void {
 	$asset_file = plugin_dir_path( __FILE__ ) . 'build/index.asset.php';
@@ -40,22 +41,15 @@ function gt_table_block_editor_assets(): void {
 		$asset['version'],
 		true
 	);
-
-	wp_enqueue_style(
-		'gt-table-block-editor',
-		plugin_dir_url( __FILE__ ) . 'build/index.css',
-		[ 'wp-edit-blocks' ],
-		$asset['version']
-	);
 }
 add_action( 'enqueue_block_editor_assets', 'gt_table_block_editor_assets' );
 
 /**
- * Enqueue frontend + editor styles.
+ * Enqueue block styles (editor iframe + frontend).
  *
  * src/style.scss is auto-extracted by @wordpress/scripts into style-index.css.
- * enqueue_block_assets fires in both editor and frontend contexts, so sticky
- * header / sticky column / header column styles work everywhere.
+ * enqueue_block_assets fires in both contexts and its styles cross into the
+ * editor iframe, which enqueue_block_editor_assets styles do not.
  */
 function gt_table_block_frontend_assets(): void {
 	$asset_file = plugin_dir_path( __FILE__ ) . 'build/index.asset.php';
@@ -66,10 +60,14 @@ function gt_table_block_frontend_assets(): void {
 
 	$asset = require $asset_file;
 
+	// No style dependency: our selectors (.wp-block-table.has-*) don't require
+	// core's wp-block-table stylesheet to be loaded first, and declaring it as
+	// a dep forces an unwanted load order in the WP 6.3+ editor iframe that
+	// disrupts editor-chrome styles (blank table area, mis-styled appender).
 	wp_enqueue_style(
 		'gt-table-block',
 		plugin_dir_url( __FILE__ ) . 'build/style-index.css',
-		[ 'wp-block-table' ],
+		[],
 		$asset['version']
 	);
 }
