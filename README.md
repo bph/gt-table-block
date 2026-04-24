@@ -61,7 +61,7 @@ The sticky header cell must be opaque so body rows don't scroll through it. Defa
 2. `--wp--custom--gt-sticky-header-bg` — theme.json `settings.custom.gtStickyHeaderBg`.
 3. `Canvas` — system fallback.
 
-**Via theme.json (recommended for themes):**
+**Via theme.json — literal color:**
 
 ```json
 {
@@ -73,7 +73,21 @@ The sticky header cell must be opaque so body rows don't scroll through it. Defa
 }
 ```
 
-WordPress serializes `settings.custom.gtStickyHeaderBg` as `--wp--custom--gt-sticky-header-bg`, which the plugin reads.
+**Via theme.json — reference a theme preset:**
+
+```json
+{
+  "settings": {
+    "custom": {
+      "gtStickyHeaderBg": "var(--wp--preset--color--base)"
+    }
+  }
+}
+```
+
+The value is emitted as-is into the CSS variable, so any WP-generated preset works — `--wp--preset--color--accent`, `--wp--preset--color--contrast-2`, or any palette slug your theme registers.
+
+In either case, WordPress serializes `settings.custom.gtStickyHeaderBg` as `--wp--custom--gt-sticky-header-bg`, which the plugin reads.
 
 **Via raw CSS in theme.json** (useful if you want to pick up a color preset):
 

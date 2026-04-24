@@ -53,11 +53,17 @@ The sticky header is painted with an opaque background so body rows don't show t
 2. `--wp--custom--gt-sticky-header-bg` — a theme.json `settings.custom` value.
 3. `Canvas` — the CSS system color (browser document background, adapts to light/dark mode).
 
-**Theme-wide via theme.json:**
+**Theme-wide via theme.json (literal color):**
 
 `{ "settings": { "custom": { "gtStickyHeaderBg": "#f5f5f5" } } }`
 
-WordPress serializes `settings.custom.gtStickyHeaderBg` as the CSS variable `--wp--custom--gt-sticky-header-bg`, which the plugin reads as a fallback.
+**Theme-wide via theme.json (reference a theme preset):**
+
+`{ "settings": { "custom": { "gtStickyHeaderBg": "var(--wp--preset--color--base)" } } }`
+
+The value is emitted into the CSS variable as-is, so any WP-generated preset works — `--wp--preset--color--accent`, `--wp--preset--color--contrast-2`, or any palette slug your theme registers.
+
+In both cases WordPress serializes `settings.custom.gtStickyHeaderBg` as the CSS variable `--wp--custom--gt-sticky-header-bg`, which the plugin reads as a fallback.
 
 **Theme-wide via raw CSS in theme.json:**
 
