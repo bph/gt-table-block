@@ -7,3 +7,4 @@ svn-local/
 how-to-deploy-a-plugin-and-a-new-versions.md
 test-table.html
 development-log.md
+*.sh
