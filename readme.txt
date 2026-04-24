@@ -2,28 +2,31 @@
 Contributors: bph
 Tags: block, table, gutenberg, block-editor, block-variation
 Requires at least: 6.6
-Tested up to: 6.7
+Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.1.0
+Stable tag: 0.1.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Enhances the core Table block with sticky header, styled first column, sticky first column, and cell merging — as a block variation with composable toggles.
+Sticky header row for the core Table block, delivered as an opt-in block variation that leaves existing tables untouched.
 
 == Description ==
 
-GT Table Block registers a block variation of `core/table` that adds four composable features without forking the block:
+GT Table Block extends the built-in `core/table` block with optional features that compose cleanly — each feature is an independent toggle, not a block style, so any combination can be active on the same table.
 
-* **Sticky header row** — header stays visible while the table body scrolls.
-* **Styled first column** — semantic `scope="row"` plus header-style treatment.
-* **Sticky first column** — first column stays visible during horizontal scroll.
-* **Merge / unmerge cells** — `colspan` / `rowspan` via toolbar controls.
+**Available in this release:**
 
-All features are independent toggles. Any combination can be active on the same table.
+* **Sticky header row** — the `<thead>` row pins to the top of the viewport while the table body scrolls. Includes a numeric offset control for sites with a fixed admin bar or site header. Pure CSS at runtime (no frontend JavaScript). The sticky background is an opaque CSS variable with full theme.json customization support (see FAQ below).
+
+**Planned for future releases:**
+
+* Styled first column (header column) with `scope="row"` semantics — v0.2.0.
+* Sticky first column for wide tables with horizontal scroll — v0.3.0.
+* Merge / unmerge cells via a block toolbar control — v0.4.0.
 
 = Why a variation, not a replacement block? =
 
-The plugin deliberately extends `core/table` rather than forking it, so tables stay compatible with core as it evolves. Independent boolean attributes also let any combination of features be active — which block styles (a mutually exclusive radio group) cannot offer.
+The plugin deliberately extends `core/table` rather than forking it, so existing tables stay compatible with core as it evolves. Independent boolean attributes also let any combination of features be active at once — which block styles (a mutually exclusive radio group) cannot offer.
 
 == Installation ==
 
@@ -71,7 +74,16 @@ In both cases WordPress serializes `settings.custom.gtStickyHeaderBg` as the CSS
 
 **Per-block override:** add an inline style or Additional CSS class that sets `--gt-sticky-header-bg` on the `<figure>`.
 
+== Source code ==
+
+Source code, build tools, issue tracker, and development log: https://github.com/bph/gt-table-block
+
+The plugin is built with `@wordpress/scripts` (see the repository's README for build instructions). Each tagged release on GitHub corresponds to the stable tag published here.
+
 == Changelog ==
 
+= 0.1.1 =
+* Documentation: shorter Short Description (Plugin Check 150-char limit), align GitHub README with readme.txt scope. No code changes.
+
 = 0.1.0 =
-* Initial release — sticky header row (PR 1). Further features ship in subsequent releases.
+* Initial release — sticky header row with optional offset control. Further features ship in subsequent releases.

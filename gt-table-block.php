@@ -3,7 +3,7 @@
  * Plugin Name:       GT Table Block
  * Plugin URI:        https://github.com/bph/gt-table-block
  * Description:       Enhances the core Table block with sticky header, styled first column, sticky first column, and cell merging — as a block variation with composable toggles.
- * Version:           0.1.0
+ * Version:           0.1.1
  * Requires at least: 6.6
  * Requires PHP:      7.4
  * Author:            Birgit Pauli-Haack

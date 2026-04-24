@@ -1,18 +1,19 @@
 # GT Table Block
 
-A WordPress plugin that enhances the core Table block with four features delivered
-as a block variation with composable toggles.
+A block variation for WordPress's core Table block that adds opt-in features
+via composable toggles. 0.1.0 ships the sticky header row; additional features
+are planned and will land in subsequent releases.
 
 ## Features
 
 | Feature | PR | Status |
 |---|---|---|
-| Sticky header row | 1 | ✅ Complete |
-| Styled first column (header column) | 2 | 🔲 Stub ready |
-| Sticky first column | 3 | 🔲 Stub ready |
-| Merge / unmerge cells | 4 | 🔲 Planned |
+| Sticky header row | 1 | ✅ Shipped in 0.1.0 |
+| Styled first column (header column) | 2 | 🔲 Planned for 0.2.0 |
+| Sticky first column | 3 | 🔲 Planned for 0.3.0 |
+| Merge / unmerge cells | 4 | 🔲 Planned for 0.4.0 |
 
-All features are independent toggles — any combination can be active simultaneously.
+Features are independent toggles by design — any combination can be active simultaneously as more features land.
 See [PLAN.md](./PLAN.md) for architecture decisions, prior art, and known gotchas.
 
 ## Development
