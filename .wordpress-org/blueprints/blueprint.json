@@ -2,7 +2,8 @@
   "$schema": "https://playground.wordpress.net/blueprint-schema.json",
   "meta": {
     "title": "GT Table Block — Sticky Header Demo",
-    "description": "Sample post with the WP 7.0 design-tools roster table; sticky header on with a 25 px top offset."
+    "description": "Sample post with the WP 7.0 design-tools roster table; sticky header on with a 25 px top offset.",
+    "author": "Birgit Pauli-Haack (bph)"
   },
   "landingPage": "/?p=1000",
   "preferredVersions": {
