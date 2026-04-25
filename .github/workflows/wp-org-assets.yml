@@ -1,0 +1,36 @@
+name: Update WP.org plugin assets
+
+# Mirrors `.wordpress-org/` and `readme.txt` to the SVN /assets/ folder of the
+# wordpress.org/plugins/gt-table-block listing. The blueprint at
+# .wordpress-org/blueprints/blueprint.json lands in SVN as
+# /assets/blueprints/blueprint.json, which is what the WP.org "Live Preview"
+# button reads.
+#
+# Requires repo secrets:
+#   SVN_USERNAME — wordpress.org committer username
+#   SVN_PASSWORD — wordpress.org committer password (or app password)
+#
+# Triggers on push to main when only assets or readme.txt change. Plugin code
+# releases stay handled by release.yml on tag push.
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.wordpress-org/**'
+      - 'readme.txt'
+  workflow_dispatch:
+
+jobs:
+  assets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sync assets and readme to WP.org SVN
+        uses: 10up/action-wordpress-plugin-asset-update@stable
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          IGNORE_OTHER_FILES: true

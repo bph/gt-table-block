@@ -4,6 +4,13 @@ A block variation for WordPress's core Table block that adds opt-in features
 via composable toggles. 0.1.0 ships the sticky header row; additional features
 are planned and will land in subsequent releases.
 
+[![Test on WordPress Playground](https://img.shields.io/badge/Test%20on-WordPress%20Playground-3858E9?logo=wordpress&logoColor=white&style=for-the-badge)](https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/bph/gt-table-block/main/.wordpress-org/blueprints/blueprint.json)
+
+One click spins up a clean WordPress in your browser with the latest release of
+this plugin installed and a sample post (the WordPress 7.0 design-tools roster
+table) already published. Sticky header is on with a 25 px top offset to
+simulate a fixed admin bar — scroll the page to see it stick.
+
 ## Features
 
 | Feature | PR | Status |
@@ -12,6 +19,7 @@ are planned and will land in subsequent releases.
 | Styled first column (header column) | 2 | 🔲 Planned for 0.2.0 |
 | Sticky first column | 3 | 🔲 Planned for 0.3.0 |
 | Merge / unmerge cells | 4 | 🔲 Planned for 0.4.0 |
+| Expand-on-hover columns | 5 | 🔲 Planned for 0.5.0 |
 
 Features are independent toggles by design — any combination can be active simultaneously as more features land.
 See [PLAN.md](./PLAN.md) for architecture decisions, prior art, and known gotchas.
@@ -28,6 +36,27 @@ npm run build   # production build
 
 The plugin uses [`@wordpress/scripts`](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/)
 with its default webpack config. No custom `webpack.config.js` is needed.
+
+## Playground blueprint
+
+The "Test on WordPress Playground" badge above loads
+[`.wordpress-org/blueprints/blueprint.json`](./.wordpress-org/blueprints/blueprint.json),
+which installs the latest GitHub release of the plugin and seeds a sample post.
+The same file is what WordPress.org will load when the **Live Preview** button
+is enabled for this plugin in the directory (committer-only setting).
+
+To iterate on uncommitted local changes instead of the released zip, mount the
+working tree and skip the URL install:
+
+```bash
+npm run build
+npx @wp-playground/cli@latest server --auto-mount
+```
+
+A readable HTML copy of the sample table lives alongside the blueprint at
+[`test-table.html`](./.wordpress-org/blueprints/test-table.html) — paste it
+into Gutenberg's Code editor on any site to reproduce the demo without
+Playground.
 
 ## File Structure
 
