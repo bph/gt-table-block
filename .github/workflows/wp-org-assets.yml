@@ -14,12 +14,18 @@ name: Update WP.org plugin assets
 # releases stay handled by release.yml on tag push.
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - '.wordpress-org/**'
-      - 'readme.txt'
+  # Auto-trigger on push is disabled until the plugin is approved on WP.org and
+  # SVN_USERNAME / SVN_PASSWORD secrets are set. Until then the workflow has
+  # nothing to authenticate against and would fail on every push to main.
+  # Post-approval, uncomment the push block below — see
+  # how-to-deploy-a-plugin-and-a-new-versions.md → "Post-approval setup".
+  #
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - '.wordpress-org/**'
+  #     - 'readme.txt'
   workflow_dispatch:
 
 jobs:
