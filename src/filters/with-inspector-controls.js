@@ -6,7 +6,7 @@
  * can be developed and reviewed independently.
  *
  * PR 1: StickyHeaderControls   ← implemented
- * PR 2: HeaderColumnControls   ← stub, implement in PR 2 branch
+ * PR 2: HeaderColumnControls   ← implemented
  * PR 3: StickyColumnControls   ← stub, implement in PR 3 branch
  * PR 4: MergeCellsControls     ← stub, implement in PR 4 branch (toolbar, not panel)
  */
@@ -19,7 +19,7 @@ import { __ } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
 
 import StickyHeaderControls from '../controls/StickyHeaderControls';
-// PR 2: import HeaderColumnControls from '../controls/HeaderColumnControls';
+import HeaderColumnControls from '../controls/HeaderColumnControls';
 // PR 3: import StickyColumnControls from '../controls/StickyColumnControls';
 
 const withGtTableControls = createHigherOrderComponent( ( BlockEdit ) => {
@@ -45,12 +45,11 @@ const withGtTableControls = createHigherOrderComponent( ( BlockEdit ) => {
 							setAttributes={ setAttributes }
 						/>
 
-						{ /* PR 2 — uncomment when branch is ready
+						{ /* PR 2 */ }
 						<HeaderColumnControls
 							attributes={ attributes }
 							setAttributes={ setAttributes }
 						/>
-						*/ }
 
 						{ /* PR 3 — uncomment when branch is ready
 						<StickyColumnControls

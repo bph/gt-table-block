@@ -4,11 +4,11 @@ Tags: block, table, gutenberg, block-editor, block-variation
 Requires at least: 6.6
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.1.1
+Stable tag: 0.2.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Sticky header row for the core Table block, delivered as an opt-in block variation that leaves existing tables untouched.
+Sticky header and styled first column for the core Table block, delivered as an opt-in block variation that leaves existing tables untouched.
 
 == Description ==
 
@@ -17,10 +17,10 @@ GT Table Block extends the built-in `core/table` block with optional features th
 **Available in this release:**
 
 * **Sticky header row** — the `<thead>` row pins to the top of the viewport while the table body scrolls. Includes a numeric offset control for sites with a fixed admin bar or site header. Pure CSS at runtime (no frontend JavaScript). The sticky background is an opaque CSS variable with full theme.json customization support (see FAQ below).
+* **Styled first column** — gives the first column the same visual weight as the header row (bold, optional themeable background) and adds `scope="row"` to those cells in the saved markup so screen readers announce them as row headers. Addresses Gutenberg core issue #1470 (open since 2017). Pure CSS for the styling; the a11y attribute is added at save time only, so the editor preview stays unchanged.
 
 **Planned for future releases:**
 
-* Styled first column (header column) with `scope="row"` semantics — v0.2.0.
 * Sticky first column for wide tables with horizontal scroll — v0.3.0.
 * Merge / unmerge cells via a block toolbar control — v0.4.0.
 
@@ -81,6 +81,9 @@ Source code, build tools, issue tracker, and development log: https://github.com
 The plugin is built with `@wordpress/scripts` (see the repository's README for build instructions). Each tagged release on GitHub corresponds to the stable tag published here.
 
 == Changelog ==
+
+= 0.2.0 =
+* New feature: **Styled first column**. Toggle in the Enhanced Table panel makes the first body/foot cells bold and adds `scope="row"` to them in the saved HTML for screen-reader semantics (Gutenberg #1470). Themeable background via the `--gt-header-column-bg` CSS variable.
 
 = 0.1.1 =
 * Documentation: shorter Short Description (Plugin Check 150-char limit), align GitHub README with readme.txt scope. No code changes.

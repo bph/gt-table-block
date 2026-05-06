@@ -1,16 +1,41 @@
 /**
- * HeaderColumnControls — PR 2 (stub)
+ * HeaderColumnControls — PR 2
  *
- * Implement in PR 2 branch.
+ * Renders a single ToggleControl inside the Enhanced Table panel:
+ *   - Style first column (hasHeaderColumn)
  *
- * Will render:
- *  - ToggleControl for hasHeaderColumn
- *  - ColorPicker (optional) for --gt-header-column-bg
+ * CSS class applied to the <figure> wrapper (via the BlockListBlock filter
+ * in with-extra-props.js and the save-side filter in with-save-props.js):
+ *   has-header-column   — when hasHeaderColumn is true
  *
- * The getSaveElement filter will also need updating in PR 2 to add scope="row"
- * to tbody/tfoot first-child cells when hasHeaderColumn is true.
+ * Styling lives in style.scss. Accessibility semantics (scope="row" on
+ * first-column body/foot cells) are added in with-save-element.js — frontend
+ * saved output only, not in the editor preview.
+ *
+ * No color picker for --gt-header-column-bg is exposed: themes can override
+ * via CSS or theme.json, parallel to the PR 1 sticky-header background var.
  */
 
-export default function HeaderColumnControls() {
-	return null;
+import { ToggleControl } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+
+export default function HeaderColumnControls( { attributes, setAttributes } ) {
+	const { hasHeaderColumn } = attributes;
+
+	return (
+		<ToggleControl
+			__nextHasNoMarginBottom
+			label={ __( 'Style first column as header', 'gt-table-block' ) }
+			help={
+				hasHeaderColumn
+					? __(
+							'First column is bold and gets scope="row" for screen readers.',
+							'gt-table-block'
+					  )
+					: __( 'First column matches body cells.', 'gt-table-block' )
+			}
+			checked={ !! hasHeaderColumn }
+			onChange={ ( value ) => setAttributes( { hasHeaderColumn: value } ) }
+		/>
+	);
 }
