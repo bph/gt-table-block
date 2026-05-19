@@ -10,8 +10,9 @@
  * Attributes added here:
  *   PR 1: stickyHeader          {boolean}  — sticky thead on scroll
  *   PR 1: stickyHeaderOffset    {integer}  — px offset for fixed nav/admin bar
- *   PR 2: firstColumn     {boolean}  — style first column like a header
- *   PR 2: firstColumnBg   {string}   — optional background colour for the first column
+ *   PR 1: headerBg              {string}   — optional background colour for thead
+ *   PR 2: firstColumn           {boolean}  — style first column like a header
+ *   PR 2: firstColumnBg         {string}   — optional background colour for the first column
  *   PR 3: stickyFirstColumn     {boolean}  — sticky first column on horizontal scroll
  *
  * PR 4 (merge/unmerge) uses the existing colspan/rowspan attrs already present
@@ -44,6 +45,15 @@ addFilter(
 				stickyHeaderOffset: {
 					type: 'integer',
 					default: 0,
+				},
+
+				// PR 1 — optional background colour for the header row.
+				// Applies whether stickyHeader is on or not. Stored as a
+				// CSS-ready string (hex, var(--…), or rgb()), emitted as
+				// --gt-header-bg on the <figure>.
+				headerBg: {
+					type: 'string',
+					default: '',
 				},
 
 				// PR 2 — styled first column (toggle)

@@ -7,13 +7,15 @@
  * header / first-column / sticky-column CSS never matches on the frontend.
  *
  * Classes added:
- *   has-sticky-header         (PR 1)
- *   has-first-column   (PR 2)
- *   has-sticky-column         (PR 3)
+ *   has-sticky-header   (PR 1)
+ *   has-header-bg       (PR 1)
+ *   has-first-column    (PR 2)
+ *   has-sticky-column   (PR 3)
  *
  * Inline styles:
- *   --gt-sticky-header-offset:     (PR 1, when offset > 0)
- *   --gt-first-column-bg:   (PR 2, when colour picked)
+ *   --gt-sticky-header-offset:  (PR 1, when offset > 0)
+ *   --gt-header-bg:             (PR 1, when colour picked)
+ *   --gt-first-column-bg:       (PR 2, when colour picked)
  */
 
 import { addFilter } from '@wordpress/hooks';
@@ -29,15 +31,17 @@ addFilter(
 		const {
 			stickyHeader,
 			stickyHeaderOffset,
+			headerBg,
 			firstColumn,
 			firstColumnBg,
 			stickyFirstColumn,
 		} = attributes;
 
 		const extraClasses = [
-			stickyHeader        ? 'has-sticky-header'        : '',
-			firstColumn   ? 'has-first-column'  : '',
-			stickyFirstColumn   ? 'has-sticky-column'        : '',
+			stickyHeader      ? 'has-sticky-header' : '',
+			headerBg          ? 'has-header-bg'     : '',
+			firstColumn       ? 'has-first-column'  : '',
+			stickyFirstColumn ? 'has-sticky-column' : '',
 		]
 			.filter( Boolean )
 			.join( ' ' );
@@ -54,6 +58,9 @@ addFilter(
 		const extraStyle = {};
 		if ( stickyHeader && stickyHeaderOffset > 0 ) {
 			extraStyle[ '--gt-sticky-header-offset' ] = `${ stickyHeaderOffset }px`;
+		}
+		if ( headerBg ) {
+			extraStyle[ '--gt-header-bg' ] = headerBg;
 		}
 		if ( firstColumn && firstColumnBg ) {
 			extraStyle[ '--gt-first-column-bg' ] = firstColumnBg;

@@ -20,7 +20,7 @@ import { Fragment } from '@wordpress/element';
 
 import StickyHeaderControls from '../controls/StickyHeaderControls';
 import FirstColumnControls from '../controls/FirstColumnControls';
-import FirstColumnColor from '../controls/FirstColumnColor';
+import TableColorSettings from '../controls/TableColorSettings';
 // PR 3: import StickyColumnControls from '../controls/StickyColumnControls';
 
 const withGtTableControls = createHigherOrderComponent( ( BlockEdit ) => {
@@ -63,8 +63,8 @@ const withGtTableControls = createHigherOrderComponent( ( BlockEdit ) => {
 					</PanelBody>
 				</InspectorControls>
 
-				{ /* Styles tab — colour controls contributed to the block's Color tools panel */ }
-				<FirstColumnColor
+				{ /* Styles tab — colour items contributed to the block's Color tools panel */ }
+				<TableColorSettings
 					clientId={ clientId }
 					attributes={ attributes }
 					setAttributes={ setAttributes }

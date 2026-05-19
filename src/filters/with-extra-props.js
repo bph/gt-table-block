@@ -6,13 +6,15 @@
  * `editor.BlockListBlock` filter so the editor and frontend render identically.
  *
  * Classes added:
- *   has-sticky-header         (PR 1) — when stickyHeader is true
- *   has-first-column   (PR 2) — when firstColumn is true
- *   has-sticky-column         (PR 3) — when stickyFirstColumn is true
+ *   has-sticky-header   (PR 1) — when stickyHeader is true
+ *   has-header-bg       (PR 1) — when headerBg is set
+ *   has-first-column    (PR 2) — when firstColumn is true
+ *   has-sticky-column   (PR 3) — when stickyFirstColumn is true
  *
  * Inline styles:
- *   --gt-sticky-header-offset:     (PR 1) — when stickyHeaderOffset > 0
- *   --gt-first-column-bg:   (PR 2) — when firstColumnBg is set
+ *   --gt-sticky-header-offset:  (PR 1) when stickyHeaderOffset > 0
+ *   --gt-header-bg:             (PR 1) when headerBg is set
+ *   --gt-first-column-bg:       (PR 2) when firstColumnBg is set
  */
 
 import { addFilter } from '@wordpress/hooks';
@@ -27,22 +29,29 @@ const withGtTableWrapperProps = createHigherOrderComponent( ( BlockListBlock ) =
 		const {
 			stickyHeader,
 			stickyHeaderOffset,
+			headerBg,
 			firstColumn,
 			firstColumnBg,
 			stickyFirstColumn,
 		} = props.attributes;
 
-		// If no Enhanced Table features are active, pass through untouched.
+		// Pass through untouched when no Enhanced Table feature contributes.
 		// Modifying wrapperProps/className unconditionally interferes with core
 		// Table's own wrapper handling and prevents cells from rendering.
-		if ( ! stickyHeader && ! firstColumn && ! stickyFirstColumn ) {
+		const anyFeature =
+			stickyHeader ||
+			firstColumn ||
+			stickyFirstColumn ||
+			!! headerBg;
+		if ( ! anyFeature ) {
 			return <BlockListBlock { ...props } />;
 		}
 
 		const extraClasses = [
-			stickyHeader        ? 'has-sticky-header'        : '',
-			firstColumn   ? 'has-first-column'  : '',
-			stickyFirstColumn   ? 'has-sticky-column'        : '',
+			stickyHeader      ? 'has-sticky-header' : '',
+			headerBg          ? 'has-header-bg'     : '',
+			firstColumn       ? 'has-first-column'  : '',
+			stickyFirstColumn ? 'has-sticky-column' : '',
 		]
 			.filter( Boolean )
 			.join( ' ' );
@@ -50,6 +59,9 @@ const withGtTableWrapperProps = createHigherOrderComponent( ( BlockListBlock ) =
 		const extraStyle = {};
 		if ( stickyHeader && stickyHeaderOffset > 0 ) {
 			extraStyle[ '--gt-sticky-header-offset' ] = `${ stickyHeaderOffset }px`;
+		}
+		if ( headerBg ) {
+			extraStyle[ '--gt-header-bg' ] = headerBg;
 		}
 		if ( firstColumn && firstColumnBg ) {
 			extraStyle[ '--gt-first-column-bg' ] = firstColumnBg;
