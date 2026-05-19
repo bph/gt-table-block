@@ -83,7 +83,7 @@ The plugin is built with `@wordpress/scripts` (see the repository's README for b
 == Changelog ==
 
 = 0.2.0 =
-* New feature: **First column as header**. Toggle in the Enhanced Table panel makes the first body/foot cells bold and adds `scope="row"` to them in the saved HTML for screen-reader semantics (Gutenberg #1470). Includes a colour picker for the column background, or theme-wide via the `--gt-first-column-header-bg` CSS variable.
+* New feature: **Style first column**. Toggle in the Enhanced Table panel makes the first body/foot cells bold and adds `scope="row"` to them in the saved HTML for screen-reader semantics (Gutenberg #1470). Includes a colour picker for the column background, or theme-wide via the `--gt-first-column-bg` CSS variable.
 
 = 0.1.1 =
 * Documentation: shorter Short Description (Plugin Check 150-char limit), align GitHub README with readme.txt scope. No code changes.

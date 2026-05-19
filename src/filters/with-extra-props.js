@@ -7,12 +7,12 @@
  *
  * Classes added:
  *   has-sticky-header         (PR 1) — when stickyHeader is true
- *   has-first-column-header   (PR 2) — when firstColumnHeader is true
+ *   has-first-column   (PR 2) — when firstColumn is true
  *   has-sticky-column         (PR 3) — when stickyFirstColumn is true
  *
  * Inline styles:
  *   --gt-sticky-header-offset:     (PR 1) — when stickyHeaderOffset > 0
- *   --gt-first-column-header-bg:   (PR 2) — when firstColumnHeaderBg is set
+ *   --gt-first-column-bg:   (PR 2) — when firstColumnBg is set
  */
 
 import { addFilter } from '@wordpress/hooks';
@@ -27,21 +27,21 @@ const withGtTableWrapperProps = createHigherOrderComponent( ( BlockListBlock ) =
 		const {
 			stickyHeader,
 			stickyHeaderOffset,
-			firstColumnHeader,
-			firstColumnHeaderBg,
+			firstColumn,
+			firstColumnBg,
 			stickyFirstColumn,
 		} = props.attributes;
 
 		// If no Enhanced Table features are active, pass through untouched.
 		// Modifying wrapperProps/className unconditionally interferes with core
 		// Table's own wrapper handling and prevents cells from rendering.
-		if ( ! stickyHeader && ! firstColumnHeader && ! stickyFirstColumn ) {
+		if ( ! stickyHeader && ! firstColumn && ! stickyFirstColumn ) {
 			return <BlockListBlock { ...props } />;
 		}
 
 		const extraClasses = [
 			stickyHeader        ? 'has-sticky-header'        : '',
-			firstColumnHeader   ? 'has-first-column-header'  : '',
+			firstColumn   ? 'has-first-column'  : '',
 			stickyFirstColumn   ? 'has-sticky-column'        : '',
 		]
 			.filter( Boolean )
@@ -51,8 +51,8 @@ const withGtTableWrapperProps = createHigherOrderComponent( ( BlockListBlock ) =
 		if ( stickyHeader && stickyHeaderOffset > 0 ) {
 			extraStyle[ '--gt-sticky-header-offset' ] = `${ stickyHeaderOffset }px`;
 		}
-		if ( firstColumnHeader && firstColumnHeaderBg ) {
-			extraStyle[ '--gt-first-column-header-bg' ] = firstColumnHeaderBg;
+		if ( firstColumn && firstColumnBg ) {
+			extraStyle[ '--gt-first-column-bg' ] = firstColumnBg;
 		}
 
 		return (

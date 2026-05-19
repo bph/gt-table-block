@@ -27,11 +27,11 @@ registerBlockVariation( 'core/table', {
 	attributes: {
 		// Feature flags only — no head/body pre-population.
 		stickyHeader: false,
-		firstColumnHeader: false,
+		firstColumn: false,
 		stickyFirstColumn: false,
 	},
 	isActive: ( blockAttributes ) =>
 		blockAttributes.stickyHeader ||
-		blockAttributes.firstColumnHeader ||
+		blockAttributes.firstColumn ||
 		blockAttributes.stickyFirstColumn,
 } );

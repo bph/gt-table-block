@@ -44,15 +44,15 @@
 	}
 }
 
-// ── PR 2: First Column Header ───────────────────────────────────────────────
+// ── PR 2: First Column ──────────────────────────────────────────────────────
 //
 // Gives the first body/foot column the same visual weight as thead/tfoot cells.
-// --gt-first-column-header-bg defaults to inherit; either set per-block via the
+// --gt-first-column-bg defaults to inherit; either set per-block via the
 // colour picker in InspectorControls (inline style on the figure) or theme-wide
-// via theme.json (settings.custom.gtFirstColumnHeaderBg). scope="row" is added
+// via theme.json (settings.custom.gtFirstColumnBg). scope="row" is added
 // to these cells in the getSaveElement filter (a11y).
 
-.wp-block-table.has-first-column-header {
+.wp-block-table.has-first-column {
 	// Use the .wp-block-table parent for specificity without !important.
 	tbody tr td:first-child,
 	tfoot tr td:first-child,
@@ -60,8 +60,8 @@
 	tfoot tr th:first-child {
 		font-weight: 700;
 		background: var(
-			--gt-first-column-header-bg,
-			var( --wp--custom--gt-first-column-header-bg, inherit )
+			--gt-first-column-bg,
+			var( --wp--custom--gt-first-column-bg, inherit )
 		);
 	}
 }

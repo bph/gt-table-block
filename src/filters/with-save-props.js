@@ -4,16 +4,16 @@
  *
  * Counterpart to with-extra-props.js, which only handles the editor DOM. Without
  * this filter the saved HTML doesn't include our feature classes, so sticky
- * header / first-column-header / sticky-column CSS never matches on the frontend.
+ * header / first-column / sticky-column CSS never matches on the frontend.
  *
  * Classes added:
  *   has-sticky-header         (PR 1)
- *   has-first-column-header   (PR 2)
+ *   has-first-column   (PR 2)
  *   has-sticky-column         (PR 3)
  *
  * Inline styles:
  *   --gt-sticky-header-offset:     (PR 1, when offset > 0)
- *   --gt-first-column-header-bg:   (PR 2, when colour picked)
+ *   --gt-first-column-bg:   (PR 2, when colour picked)
  */
 
 import { addFilter } from '@wordpress/hooks';
@@ -29,14 +29,14 @@ addFilter(
 		const {
 			stickyHeader,
 			stickyHeaderOffset,
-			firstColumnHeader,
-			firstColumnHeaderBg,
+			firstColumn,
+			firstColumnBg,
 			stickyFirstColumn,
 		} = attributes;
 
 		const extraClasses = [
 			stickyHeader        ? 'has-sticky-header'        : '',
-			firstColumnHeader   ? 'has-first-column-header'  : '',
+			firstColumn   ? 'has-first-column'  : '',
 			stickyFirstColumn   ? 'has-sticky-column'        : '',
 		]
 			.filter( Boolean )
@@ -55,8 +55,8 @@ addFilter(
 		if ( stickyHeader && stickyHeaderOffset > 0 ) {
 			extraStyle[ '--gt-sticky-header-offset' ] = `${ stickyHeaderOffset }px`;
 		}
-		if ( firstColumnHeader && firstColumnHeaderBg ) {
-			extraStyle[ '--gt-first-column-header-bg' ] = firstColumnHeaderBg;
+		if ( firstColumn && firstColumnBg ) {
+			extraStyle[ '--gt-first-column-bg' ] = firstColumnBg;
 		}
 
 		if ( Object.keys( extraStyle ).length > 0 ) {

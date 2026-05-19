@@ -89,9 +89,9 @@ addFilter(
 			return element;
 		}
 
-		const { firstColumnHeader, stickyFirstColumn } = attributes;
+		const { firstColumn, stickyFirstColumn } = attributes;
 
-		if ( ! firstColumnHeader && ! stickyFirstColumn ) {
+		if ( ! firstColumn && ! stickyFirstColumn ) {
 			return element;
 		}
 
@@ -105,7 +105,7 @@ addFilter(
 			let table = child;
 
 			// PR 2: scope="row" on first body/foot cells.
-			if ( firstColumnHeader ) {
+			if ( firstColumn ) {
 				table = tableWithRowScopes( table );
 			}
 
