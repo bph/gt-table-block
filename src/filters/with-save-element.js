@@ -26,6 +26,21 @@
 import { addFilter } from '@wordpress/hooks';
 import { cloneElement, Children, isValidElement } from '@wordpress/element';
 
+// Detect the rendered HTML tag of a cell element.
+// core/table renders cells via <RichText.Content tagName="td|th" ... />, so the
+// element's `type` is the RichText.Content component function, not the string
+// 'td'. Fall back to the `tagName` prop in that case. (Future-proofed: also
+// handle a direct host element in case core changes its save() implementation.)
+function cellTag( cell ) {
+	if ( ! isValidElement( cell ) ) {
+		return null;
+	}
+	if ( typeof cell.type === 'string' ) {
+		return cell.type;
+	}
+	return cell.props?.tagName ?? null;
+}
+
 // Add scope="row" to the first <td> child of a <tr>.
 function annotateRow( row ) {
 	if ( ! isValidElement( row ) || row.type !== 'tr' ) {
@@ -34,10 +49,12 @@ function annotateRow( row ) {
 
 	let firstCellSeen = false;
 	const newChildren = Children.map( row.props.children, ( cell ) => {
-		if ( ! isValidElement( cell ) || cell.type !== 'td' || firstCellSeen ) {
+		if ( firstCellSeen || cellTag( cell ) !== 'td' ) {
 			return cell;
 		}
 		firstCellSeen = true;
+		// RichText.Content forwards unknown props as HTML attributes on the
+		// rendered tag, so setting `scope` here produces <td scope="row">.
 		return cloneElement( cell, { scope: 'row' } );
 	} );
 
@@ -72,9 +89,9 @@ addFilter(
 			return element;
 		}
 
-		const { hasHeaderColumn, stickyFirstColumn } = attributes;
+		const { firstColumnHeader, stickyFirstColumn } = attributes;
 
-		if ( ! hasHeaderColumn && ! stickyFirstColumn ) {
+		if ( ! firstColumnHeader && ! stickyFirstColumn ) {
 			return element;
 		}
 
@@ -88,7 +105,7 @@ addFilter(
 			let table = child;
 
 			// PR 2: scope="row" on first body/foot cells.
-			if ( hasHeaderColumn ) {
+			if ( firstColumnHeader ) {
 				table = tableWithRowScopes( table );
 			}
 

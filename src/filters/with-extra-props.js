@@ -1,17 +1,18 @@
 /**
  * BlockListBlock filter — applies feature classes and inline styles to the wrapper.
  *
- * The getSaveElement filter handles saved HTML. In the editor, block wrapper
- * classes are applied here via the `editor.BlockListBlock` filter so the editor
- * and frontend render identically.
+ * The getSaveElement / getSaveContent.extraProps filters handle saved HTML. In
+ * the editor, block wrapper classes are applied here via the
+ * `editor.BlockListBlock` filter so the editor and frontend render identically.
  *
  * Classes added:
- *   has-sticky-header      (PR 1) — when stickyHeader is true
- *   has-header-column      (PR 2) — when hasHeaderColumn is true
- *   has-sticky-column      (PR 3) — when stickyFirstColumn is true
+ *   has-sticky-header         (PR 1) — when stickyHeader is true
+ *   has-first-column-header   (PR 2) — when firstColumnHeader is true
+ *   has-sticky-column         (PR 3) — when stickyFirstColumn is true
  *
  * Inline styles:
- *   --gt-sticky-header-offset: {n}px  (PR 1) — when stickyHeaderOffset > 0
+ *   --gt-sticky-header-offset:     (PR 1) — when stickyHeaderOffset > 0
+ *   --gt-first-column-header-bg:   (PR 2) — when firstColumnHeaderBg is set
  */
 
 import { addFilter } from '@wordpress/hooks';
@@ -23,28 +24,36 @@ const withGtTableWrapperProps = createHigherOrderComponent( ( BlockListBlock ) =
 			return <BlockListBlock { ...props } />;
 		}
 
-		const { stickyHeader, stickyHeaderOffset, hasHeaderColumn, stickyFirstColumn } =
-			props.attributes;
+		const {
+			stickyHeader,
+			stickyHeaderOffset,
+			firstColumnHeader,
+			firstColumnHeaderBg,
+			stickyFirstColumn,
+		} = props.attributes;
 
 		// If no Enhanced Table features are active, pass through untouched.
 		// Modifying wrapperProps/className unconditionally interferes with core
 		// Table's own wrapper handling and prevents cells from rendering.
-		if ( ! stickyHeader && ! hasHeaderColumn && ! stickyFirstColumn ) {
+		if ( ! stickyHeader && ! firstColumnHeader && ! stickyFirstColumn ) {
 			return <BlockListBlock { ...props } />;
 		}
 
 		const extraClasses = [
-			stickyHeader      ? 'has-sticky-header' : '',
-			hasHeaderColumn   ? 'has-header-column' : '',
-			stickyFirstColumn ? 'has-sticky-column' : '',
+			stickyHeader        ? 'has-sticky-header'        : '',
+			firstColumnHeader   ? 'has-first-column-header'  : '',
+			stickyFirstColumn   ? 'has-sticky-column'        : '',
 		]
 			.filter( Boolean )
 			.join( ' ' );
 
-		const extraStyle =
-			stickyHeader && stickyHeaderOffset > 0
-				? { '--gt-sticky-header-offset': `${ stickyHeaderOffset }px` }
-				: {};
+		const extraStyle = {};
+		if ( stickyHeader && stickyHeaderOffset > 0 ) {
+			extraStyle[ '--gt-sticky-header-offset' ] = `${ stickyHeaderOffset }px`;
+		}
+		if ( firstColumnHeader && firstColumnHeaderBg ) {
+			extraStyle[ '--gt-first-column-header-bg' ] = firstColumnHeaderBg;
+		}
 
 		return (
 			<BlockListBlock

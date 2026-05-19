@@ -5,10 +5,10 @@
  * Each PR's controls live in their own component in src/controls/ so they
  * can be developed and reviewed independently.
  *
- * PR 1: StickyHeaderControls   ← implemented
- * PR 2: HeaderColumnControls   ← implemented
- * PR 3: StickyColumnControls   ← stub, implement in PR 3 branch
- * PR 4: MergeCellsControls     ← stub, implement in PR 4 branch (toolbar, not panel)
+ * PR 1: StickyHeaderControls         ← implemented
+ * PR 2: FirstColumnHeaderControls    ← implemented
+ * PR 3: StickyColumnControls         ← stub, implement in PR 3 branch
+ * PR 4: MergeCellsControls           ← stub, implement in PR 4 branch (toolbar, not panel)
  */
 
 import { addFilter } from '@wordpress/hooks';
@@ -19,7 +19,7 @@ import { __ } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
 
 import StickyHeaderControls from '../controls/StickyHeaderControls';
-import HeaderColumnControls from '../controls/HeaderColumnControls';
+import FirstColumnHeaderControls from '../controls/FirstColumnHeaderControls';
 // PR 3: import StickyColumnControls from '../controls/StickyColumnControls';
 
 const withGtTableControls = createHigherOrderComponent( ( BlockEdit ) => {
@@ -46,7 +46,7 @@ const withGtTableControls = createHigherOrderComponent( ( BlockEdit ) => {
 						/>
 
 						{ /* PR 2 */ }
-						<HeaderColumnControls
+						<FirstColumnHeaderControls
 							attributes={ attributes }
 							setAttributes={ setAttributes }
 						/>

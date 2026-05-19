@@ -8,9 +8,11 @@
  *  - Block serialisation round-trips them correctly from saved HTML comments.
  *
  * Attributes added here:
- *   PR 1: stickyHeader        {boolean}  — sticky thead on scroll
- *   PR 2: hasHeaderColumn     {boolean}  — style first column like a header
- *   PR 3: stickyFirstColumn   {boolean}  — sticky first column on horizontal scroll
+ *   PR 1: stickyHeader          {boolean}  — sticky thead on scroll
+ *   PR 1: stickyHeaderOffset    {integer}  — px offset for fixed nav/admin bar
+ *   PR 2: firstColumnHeader     {boolean}  — style first column like a header
+ *   PR 2: firstColumnHeaderBg   {string}   — optional background colour for the first column
+ *   PR 3: stickyFirstColumn     {boolean}  — sticky first column on horizontal scroll
  *
  * PR 4 (merge/unmerge) uses the existing colspan/rowspan attrs already present
  * in core/table's block.json, plus a `hidden` flag on cell objects which is
@@ -44,10 +46,18 @@ addFilter(
 					default: 0,
 				},
 
-				// PR 2 — styled first column
-				hasHeaderColumn: {
+				// PR 2 — styled first column (toggle)
+				firstColumnHeader: {
 					type: 'boolean',
 					default: false,
+				},
+
+				// PR 2 — optional background colour for the first column.
+				// Stored as a CSS-ready string (hex, var(--…), or rgb()), emitted
+				// as --gt-first-column-header-bg on the <figure>.
+				firstColumnHeaderBg: {
+					type: 'string',
+					default: '',
 				},
 
 				// PR 3 — sticky first column (also triggers scroll wrapper in save)

@@ -4,15 +4,16 @@
  *
  * Counterpart to with-extra-props.js, which only handles the editor DOM. Without
  * this filter the saved HTML doesn't include our feature classes, so sticky
- * header / header column / sticky column CSS never matches on the frontend.
+ * header / first-column-header / sticky-column CSS never matches on the frontend.
  *
  * Classes added:
- *   has-sticky-header   (PR 1)
- *   has-header-column   (PR 2)
- *   has-sticky-column   (PR 3)
+ *   has-sticky-header         (PR 1)
+ *   has-first-column-header   (PR 2)
+ *   has-sticky-column         (PR 3)
  *
- * Inline style:
- *   --gt-sticky-header-offset: {n}px   (PR 1, when offset > 0)
+ * Inline styles:
+ *   --gt-sticky-header-offset:     (PR 1, when offset > 0)
+ *   --gt-first-column-header-bg:   (PR 2, when colour picked)
  */
 
 import { addFilter } from '@wordpress/hooks';
@@ -25,13 +26,18 @@ addFilter(
 			return props;
 		}
 
-		const { stickyHeader, stickyHeaderOffset, hasHeaderColumn, stickyFirstColumn } =
-			attributes;
+		const {
+			stickyHeader,
+			stickyHeaderOffset,
+			firstColumnHeader,
+			firstColumnHeaderBg,
+			stickyFirstColumn,
+		} = attributes;
 
 		const extraClasses = [
-			stickyHeader      ? 'has-sticky-header' : '',
-			hasHeaderColumn   ? 'has-header-column' : '',
-			stickyFirstColumn ? 'has-sticky-column' : '',
+			stickyHeader        ? 'has-sticky-header'        : '',
+			firstColumnHeader   ? 'has-first-column-header'  : '',
+			stickyFirstColumn   ? 'has-sticky-column'        : '',
 		]
 			.filter( Boolean )
 			.join( ' ' );
@@ -45,11 +51,16 @@ addFilter(
 			className: [ props.className, extraClasses ].filter( Boolean ).join( ' ' ),
 		};
 
+		const extraStyle = {};
 		if ( stickyHeader && stickyHeaderOffset > 0 ) {
-			next.style = {
-				...props.style,
-				'--gt-sticky-header-offset': `${ stickyHeaderOffset }px`,
-			};
+			extraStyle[ '--gt-sticky-header-offset' ] = `${ stickyHeaderOffset }px`;
+		}
+		if ( firstColumnHeader && firstColumnHeaderBg ) {
+			extraStyle[ '--gt-first-column-header-bg' ] = firstColumnHeaderBg;
+		}
+
+		if ( Object.keys( extraStyle ).length > 0 ) {
+			next.style = { ...props.style, ...extraStyle };
 		}
 
 		return next;
