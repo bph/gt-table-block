@@ -20,6 +20,7 @@ import { Fragment } from '@wordpress/element';
 
 import StickyHeaderControls from '../controls/StickyHeaderControls';
 import FirstColumnControls from '../controls/FirstColumnControls';
+import FirstColumnColor from '../controls/FirstColumnColor';
 // PR 3: import StickyColumnControls from '../controls/StickyColumnControls';
 
 const withGtTableControls = createHigherOrderComponent( ( BlockEdit ) => {
@@ -29,11 +30,13 @@ const withGtTableControls = createHigherOrderComponent( ( BlockEdit ) => {
 			return <BlockEdit { ...props } />;
 		}
 
-		const { attributes, setAttributes } = props;
+		const { attributes, setAttributes, clientId } = props;
 
 		return (
 			<Fragment>
 				<BlockEdit { ...props } />
+
+				{ /* Settings tab — feature toggles */ }
 				<InspectorControls>
 					<PanelBody
 						title={ __( 'Enhanced Table', 'gt-table-block' ) }
@@ -45,7 +48,7 @@ const withGtTableControls = createHigherOrderComponent( ( BlockEdit ) => {
 							setAttributes={ setAttributes }
 						/>
 
-						{ /* PR 2 */ }
+						{ /* PR 2 — toggle only; colour lives in the Styles tab */ }
 						<FirstColumnControls
 							attributes={ attributes }
 							setAttributes={ setAttributes }
@@ -59,6 +62,13 @@ const withGtTableControls = createHigherOrderComponent( ( BlockEdit ) => {
 						*/ }
 					</PanelBody>
 				</InspectorControls>
+
+				{ /* Styles tab — colour controls contributed to the block's Color tools panel */ }
+				<FirstColumnColor
+					clientId={ clientId }
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+				/>
 			</Fragment>
 		);
 	};
