@@ -73,6 +73,11 @@
 	tbody tr th:first-child,
 	tfoot tr th:first-child {
 		font-weight: 700;
+		// Normalise alignment: browsers default <th> to center and <td> to start.
+		// Tables in the wild often mix the two tags in the first column (e.g. when
+		// some rows were edited with scope=row applied and others were not), which
+		// produces a jagged column. start = left in LTR, right in RTL.
+		text-align: start;
 		background: var(
 			--gt-first-column-bg,
 			var( --wp--custom--gt-first-column-bg, inherit )
